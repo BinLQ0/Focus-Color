@@ -1,0 +1,40 @@
+body {
+  background-color: #f1f6f9;
+  min-height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.card {
+  background-color: #839b97;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px 0;
+  padding: 2px;
+}
+
+.login-box {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-logo {
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.login-logo a {
+  color: #000000;
+}
+
+.login-box-msg {
+  text-align: center;
+  font-size: 1.5em;
+}
+
