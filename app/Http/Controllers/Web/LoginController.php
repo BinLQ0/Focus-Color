@@ -17,7 +17,6 @@ class LoginController extends Controller
         if (auth()->check()) {
             return redirect()->intended('/');
         }
-
         return view('pages.login');
     }
 
@@ -34,7 +33,6 @@ class LoginController extends Controller
                 'password' => 'Wrong password'
             ]);
         }
-
         return redirect()->intended('/');
     }
 

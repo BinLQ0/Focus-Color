@@ -1,16 +1,24 @@
-<div class="input-group {{ $margin }}">
-    <input name='{{ $name }}' {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }}
-        {{ $attributes }} value='{{ old($name) ?? $value ?? '' }}'>
+@extends('components.forms.input-group-component')
+@section('input-item')
 
-    @if($icon)
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="{{ $icon }}"></span>
-            </div>
+<!-- Input Field -->
+<input name='{{ $name }}'
+    {{ $attributes->class(['form-control', 'is-invalid' => $errors->has($name)]) }} />
+
+<!-- Icon -->
+@isset($icon)
+
+    <!-- Input Group Append -->
+    <div class="input-group-append">
+
+        <!-- Input Group Icon -->
+        <div class="input-group-text">
+            <span class="{{ $icon }}"></span>
         </div>
-    @endif
+        <!-- ./Input Group Icon -->
 
-    @error( $name )
-        <span class="error invalid-feedback">{{ $message }}</span>
-    @enderror
-</div>
+    </div>
+    <!-- ./Input Group Append -->
+@endisset
+
+@overwrite

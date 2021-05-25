@@ -29,7 +29,7 @@
             columns: [{
                 data: 'username'
             }, {
-                data: 'attempt_clock',
+                data: 'last_seen_at',
             }, {
                 data: 'attempt_ip',
             }, {

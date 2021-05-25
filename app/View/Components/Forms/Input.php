@@ -2,53 +2,18 @@
 
 namespace App\View\Components\Forms;
 
-use Illuminate\View\Component;
+use App\View\Components\Forms\InputGroupComponent;
 
-class Input extends Component
+class Input extends InputGroupComponent
 {
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $label;
-
-    /**
-     * @var string
-     */
-    public $icon;
-
-    /**
-     * @var string
-     */
-    public $margin;
-
-    /**
-     * @var string
-     */
-    public $value;
-
-    /**
-     * @var string
-     */
-    public $form;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $label = '', $value = '', $margin = 'mb-3', $icon = null, $form = '')
+    public function __construct($name, $label = null, $icon = null, $fgroupClass = null, $igroupClass = null)
     {
-        $this->name     = $name;
-        $this->value    = $value;
-        $this->icon     = $icon;
-        $this->margin   = $margin;
-        $this->form     = $form;
-        $this->label    = $label;
+        parent::__construct($name, $label, $icon, $fgroupClass, $igroupClass);
     }
 
     /**
@@ -58,18 +23,6 @@ class Input extends Component
      */
     public function render()
     {
-        switch ($this->form) {
-            case 'v':
-            case 'vertical':
-                return view('components.forms.input-vertical');
-                break;
-            case 'h':
-            case 'horizontal':
-                return view('components.forms.input-horizontal');
-                break;
-            default:
-                return view('components.forms.input');
-                break;
-        }
+        return view('components.forms.input');
     }
 }
