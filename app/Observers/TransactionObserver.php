@@ -22,12 +22,12 @@ class TransactionObserver
         $product = Product::where('name', request('description'))->first()->id;
 
         $products = array($product);
-        for ($index = 0; $index < count(request('product_location')); $index++) {
+        for ($index = 0; $index < count(request('locationID')); $index++) {
             array_push($products, $product);
         }
 
         request()->merge([
-            'product_id'        => $products,
+            'pid' => $products,
         ]);
     }
 
@@ -38,15 +38,15 @@ class TransactionObserver
      */
     public function saved($event)
     {
-        if (!request()->hasAny(['product_id', 'product_quantity'])) {
+        if (!request()->hasAny(['pid', 'amount'])) {
             return;
         }
 
         $event->products()->sync([]);
 
-        $products   = request('product_id');
-        $quantity   = request('product_quantity');
-        $locations  = request('product_location');
+        $products   = request('pid');
+        $quantity   = request('amount');
+        $locations  = request('locationID');
 
         for ($i = 0; $i < count($quantity) - 1; $i++) {
             $event->products()->attach([

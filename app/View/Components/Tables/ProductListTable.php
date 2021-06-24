@@ -4,9 +4,8 @@ namespace App\View\Components\Tables;
 
 use App\Models\Product;
 use Illuminate\Support\Collection;
-use Illuminate\View\Component;
 
-class ProductListTable extends Component
+class ProductListTable extends ListTableComponent
 {
     /**
      * @var string 
@@ -23,39 +22,82 @@ class ProductListTable extends Component
     public $option;
 
     /**
-     * @var Illuminate\Support\Collection 
+     * Execute when needed product, location or stock
+     * 
+     * @var Illuminate\Support\Collection
      */
-    public $products;
-
-    /**
-     * @var bool 
-     */
-    public $viewStock;
-
-    /**
-     * @var bool 
-     */
-    public $isAll;
+    public $views;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($header = '', $option = null, ?Collection $products, $viewStock = false, $isAll = false)
+    public function __construct($header = null, $productType = null, ?Collection $products, array $only = [], array $except = [])
     {
-        //$this->collectProducts();
+        parent::__construct($products);
 
-        $this->header    = $header;
-        $this->products  = $this->getOldValue($products);
-        $this->viewStock = $viewStock;
-        $this->isAll     = $isAll;
+        $this->header = $header;
+        // Setup Function
+        $this->setupViews($only, $except);
+        $this->setupOption($productType);
+    }
 
-        //Setup Option Select Form
-        $this->option = Product::TypeOf($option)
-            ->orderBy('name')
+    /**
+     * 
+     */
+    private function setupViews($only, $except)
+    {
+        // Default Setting
+        $this->views = collect(['product', 'location', 'quantity', 'stock']);
+
+        if (!empty($only)) {
+            
+            $this->views = $this->views->filter(function ($value, $key) use ($only){
+                return in_array($value, $only);
+            });
+        }
+
+        if (!empty($except)) {
+            $this->views = $this->views->filter(function ($value, $key) use ($except){
+                return !in_array($value, $except);
+            });
+        }
+    }
+
+    /**
+     * Setup list of products by type
+     * 
+     * @param string  $type
+     * @return void
+     */
+    private function setupOption($type)
+    {
+        // Convert to query
+        $option = Product::query();
+
+        // Check if want to get Material Product
+        $option = $option->when($type === 'material', function ($q) {
+            $q->typeOf('is_material');
+        });
+
+        // Check if want to get Goods Product
+        $option = $option->when($type === 'goods', function ($q) {
+            $q->typeOf('is_goods');
+        });
+
+        $this->option = $option->orderBy('name')
             ->pluck("name", "id")
             ->toArray();
+    }
+
+    /**
+     * The function used to check 
+     * whether it can be seen or not
+     */
+    public function canView($value)
+    {
+        return $this->views->contains($value);
     }
 
     /**
@@ -66,32 +108,5 @@ class ProductListTable extends Component
     public function render()
     {
         return view('components.tables.product-list-table');
-    }
-
-    /**
-     * Set value if request validation failed
-     */
-    public function getOldValue(?Collection $default = null)
-    {
-        if (!old('product_id') || !old('product_quantity') || !\old('product_location')) {
-            return $default;
-        }
-
-        $products = collect([]);
-
-        foreach (old('product_id') as $key => $value) {
-            if (!$value) {
-                continue;
-            }
-
-            //Collect data from old value
-            $products->put($key, [
-                'oldId'     => $value,
-                'oldQty'    => old('product_quantity', 0)[$key],
-                'oldLoc'    => old('product_location', 0)[$key],
-            ]);
-        }
-
-        return $products;
     }
 }

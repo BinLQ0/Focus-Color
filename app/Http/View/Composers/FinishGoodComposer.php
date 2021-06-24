@@ -15,8 +15,6 @@ class FinishGoodComposer
      */
     public function compose(View $view)
     {
-        $view->with('finish_good', Product::with('type')->whereHas('type', function ($q) {
-            $q->where('is_goods', 1);
-        })->orderBy('name')->pluck("name", "id")->toArray());
+        $view->with('finish_good', Product::typeOf('is_goods')->orderBy('name')->pluck("name", "id")->toArray());
     }
 }

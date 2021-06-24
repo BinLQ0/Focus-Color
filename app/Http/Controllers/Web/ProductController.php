@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('pages.products.create');
+        return view('pages.products.createOrUpdate');
     }
 
     /**
@@ -48,7 +48,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('pages.products.edit', compact('product'));
+        $init = $product->initDetails->first();
+
+        $product->date           = $init->date;
+        $product->first_balance  = $init->pivot->quantity;
+
+        return view('pages.products.createOrUpdate', compact('product'));
     }
 
     /**

@@ -40,11 +40,9 @@ trait HasStock
      */
     public function getQuantity($history = null): float
     {
-        $history = $history ?? $this->history->load(['histories']);
-
         // Get quantity each type
-        $debit  = $history->where('histories.type', 'DEBIT')->sum('quantity');
-        $credit = $history->where('histories.type', 'CREDIT')->sum('quantity');
+        $debit  = $history->where('account', 'DEBIT')->sum('quantity');
+        $credit = $history->where('account', 'CREDIT')->sum('quantity');
 
         return $debit - $credit;
     }

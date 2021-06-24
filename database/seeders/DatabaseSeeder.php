@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Rack;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,9 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Rack::factory()->create([
-            'code' => 'Receiving Area',
-            'note' => 'Temporary place before sorted on rack',
+        $this->call([
+            HistorySeeder::class,
+            PermissionSeeder::class
         ]);
     }
 }

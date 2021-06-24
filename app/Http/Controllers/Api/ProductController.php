@@ -14,16 +14,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ProductResource::collection(
-            Product::withHistory()->get()
-        );
-    }
+        // Convert to query
+        $products = Product::query();
 
-    /**
-     * 
-     */
-    public function getRacks(Product $product)
-    {
-        return RackResource::collection($product->uniqueOf('racks')->flatten());
+        // Check if request has 'search' text
+        $products = $products->when(request()->has('search'), function ($q) {
+            $q->where('for', 'like', '%' . request('search') . '%');
+        });
+
+        $products = $products->with('history.histories')->orderBy('name');
+        
+        return ProductResource::collection($products->get());
     }
 }

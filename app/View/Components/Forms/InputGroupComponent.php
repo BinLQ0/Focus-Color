@@ -3,9 +3,17 @@
 namespace App\View\Components\Forms;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Str;
 
 class InputGroupComponent extends Component
 {
+    /**
+     * Bind linked data with the 'name' attribute to return a value.
+     * 
+     * @var mixed
+     */
+    public $bind;
+
     /**
      * Attribute is used to reference elements in a JavaScript, 
      * or to reference form data after a form is submitted.
@@ -50,13 +58,14 @@ class InputGroupComponent extends Component
      *
      * @return void
      */
-    public function __construct($name, $label = null, $icon = null, $fgroupClass, $igroupClass)
+    public function __construct($name, $label = null, $icon = null, $fgroupClass, $igroupClass, $bind = null)
     {
         $this->name        = $name;
         $this->label       = $label;
         $this->icon        = $icon;
         $this->fgroupClass = $fgroupClass;
         $this->igroupClass = $igroupClass;
+        $this->bind        = $bind;
     }
 
     /**
@@ -81,6 +90,30 @@ class InputGroupComponent extends Component
         return \implode(' ', $classes);
     }
 
+
+
+    /**
+     * Get attribute 'value'
+     */
+    public function getValue()
+    {
+        $value = null;
+
+        if (old($this->name)) {
+            $value = old($this->name);
+        }
+
+        if (isset($this->bind)) {
+            $name  = Str::before($this->name, '[');
+            $value = $this->bind->$name;
+        }
+
+        if ($this->attributes->has('value')) {
+            $value = $this->attributes->get('value');
+        }
+        return $value ?? ($this->attributes['type'] == 'number' ? 0 : '');
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -88,6 +121,6 @@ class InputGroupComponent extends Component
      */
     public function render()
     {
-        return view('components.templates.forms.base-form-group');
+        return view('components.forms.input-group-component');
     }
 }

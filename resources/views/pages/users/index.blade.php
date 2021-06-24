@@ -1,4 +1,5 @@
 @extends('_layouts.base')
+
 @section('title', 'Users Management')
 
 @section('css')
@@ -15,14 +16,16 @@
 <div class="row d-flex justify-content-center">
     <div class="col-9">
 
+        {{-- Header --}}
         <h2> USER MANAGEMENT </h2>
 
+        {{-- Tools --}}
         <div class="row pl-2 mb-3">
             <x-button id='btn_create' :url='url("users/create")' class='bg-success btn-sm' icon='far fa-plus-square'
                 label='Create' />
         </div>
 
-        <x-card component='tables.user-table' has-padding='true' />
+        <x-card theme-mode='outline' theme='primary' component='tables.user-table' body-class='p-0' />
     </div>
 </div>
 

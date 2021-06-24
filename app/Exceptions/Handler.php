@@ -38,4 +38,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            alert('Sorry, You Not Authorize!','Please Contact Your Administrator', 'warning');
+            return \redirect()->intended('/');
+        }
+
+        return parent::render($request, $exception);
+    }
 }

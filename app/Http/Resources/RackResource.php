@@ -18,7 +18,7 @@ class RackResource extends JsonResource
             'id'        => $this->id,
             'code'      => $this->code . ' ( ' . $this->warehouse->name . ' ) ',
             'note'      => $this->note,
-            'quantity'  => $this->when(request('show', true), function () {
+            'quantity'  => $this->when(request('stock', false), function () {
                 return $this->getQuantity($this->history);
             })
         ];

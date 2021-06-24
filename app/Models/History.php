@@ -14,6 +14,13 @@ class History extends Pivot
     protected $table = 'histories';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Get the parent historyable model.
      */
     public function histories()

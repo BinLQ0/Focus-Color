@@ -2,22 +2,10 @@
 
 namespace App\View\Components\Forms;
 
-use Illuminate\View\Component;
-
-class CheckBox extends Component
+class CheckBox extends InputGroupComponent
 {
     /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $label;
-
-    /**
-     * @var string
+     * @var bool
      */
     public $checked;
 
@@ -26,11 +14,21 @@ class CheckBox extends Component
      *
      * @return void
      */
-    public function __construct($name, $label, bool $checked = false)
+    public function __construct($name, $label, $fgroupClass = null, $checked = null)
     {
-        $this->name     = $name;
-        $this->label    = $label;
-        $this->checked  = $checked ? 'checked' : '';
+        $this->checked  = $checked;
+        parent::__construct($name, $label, null, null, $fgroupClass, null, null);
+    }
+
+    public function makeCheckClass(){
+        $classes = ['icheck-primary'];
+
+        return implode(' ', $classes);
+    }
+
+    public function isChecked()
+    {
+        return $this->checked ? 'checked' : '';
     }
 
     /**

@@ -5,8 +5,6 @@
 @section('css')
 <!-- Bootstrap 4 -->
 <link rel="stylesheet" href="{{ URL::asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-<!-- Sweet Alert 2 -->
-<link rel="stylesheet" href="{{ URL::asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}	">
 
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -27,7 +25,7 @@
             </div>
         </div>
 
-        <x-card component='tables.product-table' has-padding='true' />
+        <x-card theme-mode='outline' theme='primary' component='tables.product-table' body-class='p-0' />
     </div>
 </div>
 @endsection
@@ -36,6 +34,4 @@
 <!-- Datatables -->
 <script src="{{ url::asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ url::asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-<!-- Sweet Alert 2 -->
-<script src="{{ url::asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endsection

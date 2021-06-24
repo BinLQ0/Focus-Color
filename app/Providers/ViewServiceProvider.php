@@ -32,42 +32,35 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer(
             [
-                'pages.products.create', 'pages.products.edit',
+                'pages.products.createOrUpdate',
             ],
             ProductTypeComposer::class
         );
 
         View::composer(
             [
-                'pages.material-release.create', 'pages.material-release.edit',
+                'pages.modules.manufacture.material-release.createOrUpdate',
             ],
             FinishGoodComposer::class
         );
 
         View::composer(
             [
-                'pages.product-result.create', 'pages.product-result.edit',
-            ],
-            UnfinishedWorkComposer::class
-        );
-
-        View::composer(
-            [
-                'pages.job-cost.create', 'pages.job-cost.edit',
+                'pages.modules.manufacture.job-cost.createOrUpdate',
             ],
             JobCostReferanceComposer::class
         );
 
         View::composer(
             [
-                'pages.receive-item.create', 'pages.receive-item.edit',
+                'pages.modules.warehouse.receive-item.createOrUpdate',
             ],
             SupplierComposer::class
         );
 
         View::composer(
             [
-                'pages.delivery-order.create', 'pages.delivery-order.edit',
+                'pages.modules.warehouse.delivery-order.createOrUpdate',
             ],
             CustomerComposer::class
         );

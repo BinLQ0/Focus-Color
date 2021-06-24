@@ -14,30 +14,32 @@
 @section('content')
 
 <div class="row">
-	<div class="col-2">
-		<x-card>
-			<x-date form='v' id='srcDateStart' name='srcDateStart' label='Date From' class='date-search form-control-sm'/>
-			<x-date form='v' id='srcDateEnd' name='srcDateEnd' label='Date To' class='date-search form-control-sm'/>
-		</x-card>
+    <div class="col-2">
+        <x-card>
+            <x-input daterangepicker id='srcDateStart' name='srcDateStart' label='Date From' class='date-search form-control-sm' />
+            <x-input daterangepicker id='srcDateEnd' name='srcDateEnd' label='Date To' class='date-search form-control-sm' />
+        </x-card>
 
-		<x-card>
-			<h5 class="mb-3"><b><u> Location </u></b></h5>
-			@foreach ($product->uniqueOf('racks') as $rack)
-				<div class="row border-bottom align-center mt-1">
-					<div class="col-6">
-						<label>{{ $rack->code.' ('.$rack->warehouse->name.')' }}</label>
-					</div>
-					<div class="col-6 text-right">
-						<label>{{$rack->getQuantity($rack->history)}} Kg</label>
-					</div>
-				</div>
-			@endforeach
-		</x-card>
-	</div>
-	<div class="col-10">
-		<h2><b>{{ $product->name }}</b> <span>( {{ $product->description }} )</span></h2>
-		<x-card component='tables.history-table' :params='$product' has-padding=true/>
-	</div>
+        <x-card title='LOCATION' theme-mode='outline' theme='primary'>
+            @foreach($product->uniqueOf('racks') as $rack)
+                <div class="row border-bottom align-center mt-1">
+                    <div class="col-6">
+                        <label>{{ $rack->code.' ('.$rack->warehouse->name.')' }}</label>
+                    </div>
+                    <div class="col-6 text-right">
+                        <label>{{ $rack->getQuantity($rack->history) }} Kg</label>
+                    </div>
+                </div>
+            @endforeach
+        </x-card>
+    </div>
+    <div class="col-10">
+        <h2><b>{{ $product->name }}</b> <span>( {{ $product->description }} )</span></h2>
+
+        <x-card theme-mode='outline' theme='primary' class="p-0">
+            <x-tables.history-table :params='$product' />
+        </x-card>
+    </div>
 </div>
 
 @endsection

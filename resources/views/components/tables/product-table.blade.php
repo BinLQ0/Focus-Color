@@ -18,7 +18,7 @@
             deferRender: true,
             dom: 't',
             ajax: {
-                url: 'api/products',
+                url: '{{ route("api.product") }}',
                 type: 'GET',
                 dataSrc: 'data'
             },

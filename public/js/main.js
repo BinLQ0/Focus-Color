@@ -13,8 +13,6 @@ var ModalDeleteSuccess = Swal.mixin({
 $(document).ready(function () {
     $('input').attr('autocomplete', 'off');
     $('input[type=number]').attr('step', 'any');
-
-    $(this).displayTotal();
 });
 
 $('.table tbody').on('click', '#btn_view', function (e) {

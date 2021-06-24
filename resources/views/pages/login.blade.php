@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
-
   
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
@@ -24,7 +23,7 @@
     <div class="card-body login-card-body">
       <h3 class="login-box-msg">Sign in</h3>
       
-      <form action='{{ route("login") }}' method='POST'>
+      <form action='{{ route("attempt") }}' method='POST'>
         
         @csrf
         

@@ -1,19 +1,18 @@
 <?php
 
-use App\Http\Controllers\Api\AdjustmentController;
-use App\Http\Controllers\Api\DeliveryOrderController;
 use App\Http\Controllers\Api\HistoryController;
-use App\Http\Controllers\Api\JobCostController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductTypeController;
-use App\Http\Controllers\Api\MaterialReleaseController;
-use App\Http\Controllers\Api\ProductResultController;
-use App\Http\Controllers\Api\RackController;
-use App\Http\Controllers\Api\ReceiveItemController;
-use App\Http\Controllers\Api\RelationController;
-use App\Http\Controllers\Api\StocktakingController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\WarehouseController;
+use App\Http\Controllers\Modules\Manufacture\Api\MaterialReleaseController;
+use App\Http\Controllers\Modules\Manufacture\Api\ProductResultController;
+use App\Http\Controllers\Modules\Manufacture\Api\JobCostController;
+use App\Http\Controllers\Modules\Master\Api\WarehouseController;
+use App\Http\Controllers\Modules\Master\Api\RackController;
+use App\Http\Controllers\Modules\Master\Api\RelationController;
+use App\Http\Controllers\Modules\Warehouse\Api\AdjustmentController;
+use App\Http\Controllers\Modules\Warehouse\Api\DeliveryOrderController;
+use App\Http\Controllers\Modules\Warehouse\Api\ReceiveItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +26,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/adjustment', [AdjustmentController::class, 'index'])->name('api.adjustment');
-Route::get('/delivery', [DeliveryOrderController::class, 'index'])->name('api.delivery');
-Route::get('/jobcost', [JobCostController::class, 'index'])->name('api.jobcost');
+Route::prefix('/manufacture')->group(function () {
+    Route::get('/release', [MaterialReleaseController::class, 'index'])->name('api.release');
+    Route::get('/result', [ProductResultController::class, 'index'])->name('api.result');
+    Route::get('/jobcost', [JobCostController::class, 'index'])->name('api.jobcost');
+});
+
+Route::prefix('/warehouse')->group(function () {
+    Route::get('/adjustment', [AdjustmentController::class, 'index'])->name('api.adjustment');
+    Route::get('/receive', [ReceiveItemController::class, 'index'])->name('api.receive');
+    Route::get('/delivery', [DeliveryOrderController::class, 'index'])->name('api.delivery');
+
+    Route::post('/stocktaking/export', [StocktakingController::class, 'exportToExcel'])->name('api.stocktaking.export');
+    Route::post('/stocktaking/import', [StocktakingController::class, 'importFromExcel'])->name('api.stocktaking.import');
+});
+
 Route::get('/products', [ProductController::class, 'index'])->name('api.product');
-Route::get('/receive', [ReceiveItemController::class, 'index'])->name('api.receive');
-Route::get('/release', [MaterialReleaseController::class, 'index'])->name('api.release');
-Route::get('/result', [ProductResultController::class, 'index'])->name('api.result');
 Route::get('/users', [UserController::class, 'index'])->name('api.user');
 Route::get('/relation', [RelationController::class, 'index'])->name('api.relation');
 
@@ -46,7 +54,3 @@ Route::get('/rack/{rack}', [RackController::class, 'getBy'])->name('api.rack.sho
 Route::get('/product-types/getSelect2', [ProductTypeController::class, 'getSelect2'])->name('api.product-type.select');
 
 Route::get('product/{product}/history', [HistoryController::class, 'index'])->name('api.history');
-Route::get('product/{product}/racks', [ProductController::class, 'getRacks'])->name('api.product.rack');
-
-Route::post('/stocktaking/export', [StocktakingController::class, 'exportToExcel'])->name('api.stocktaking.export');
-Route::post('/stocktaking/import', [StocktakingController::class, 'importFromExcel'])->name('api.stocktaking.import');

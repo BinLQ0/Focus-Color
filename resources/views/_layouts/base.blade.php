@@ -12,29 +12,32 @@
 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    
+
     @yield('css')
     @stack('css')
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-        href="{{ URL::asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <!-- AdminLTE -->
-    <link rel="stylesheet" href="{{ URL::asset('css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    <!-- Sweet Alert 2 -->
+    <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- icheck Bootstrap -->
+    <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 
     <style>
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
+            -webkit-appearance: none;
+            margin: 0;
         }
-        
+
         /* Firefox */
         input[type=number] {
-          -moz-appearance: textfield;
+            -moz-appearance: textfield;
         }
-        </style>
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -59,7 +62,7 @@
             </section>
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content pb-3">
                 @yield('content')
             </section>
             <!-- /.content -->
@@ -73,20 +76,22 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ URL::asset('plugins/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-ui/jquery-ui.js') }}"></script>
 
     <!-- Bootstrap 4 -->
-    <script src="{{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     @yield('js')
     @stack('js')
 
-    {{-- @include('sweetalert::alert') --}}    
+    {{-- @include('sweetalert::alert') --}}
     @include('sweetalert::alert')
 
-    <script src="{{ URL::asset('js/adminlte.min.js') }}"></script>
-    <script src="{{ URL::asset('js/main.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 
 </html>

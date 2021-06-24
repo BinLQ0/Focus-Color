@@ -28,14 +28,14 @@ class MaterialReleaseRequest extends FormRequest
                     return [
                         'for'           => 'required|unique:releases',
                         'description'   => 'required',
-                        'product_id'    => 'required|array|min:1'
+                        'pid'           => 'required|array|min:1'
                     ];
                 }
             case 'PUT':
             case 'PATCH': {
                     return [
                         'for'           => 'sometimes|required|unique:releases,for,' . $this->release['id'],
-                        'product_id'    => 'required|array|min:1'
+                        'pid'           => 'required|array|min:1'
                     ];
                 }
             default:

@@ -13,9 +13,11 @@ class ProductList extends Component
     public $option;
 
     /**
-     * @var bool
+     * Execute when needed product, location or stock
+     * 
+     * @var Illuminate\Support\Collection
      */
-    public $viewStock;
+    public $views;
 
     /**
      * @var int
@@ -48,14 +50,19 @@ class ProductList extends Component
     public $option_rack;
 
     /**
+     * @var App\Models\Product
+     */
+    public $product;
+
+    /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($option = [], $product = null, $viewStock = false, $index = 0)
+    public function __construct($option = [], $product = null, $only = [], $racks, $index = 0)
     {
-        $this->option           = $option;
-        $this->viewStock        = $viewStock;
+        $this->option      = $option;
+        $this->only        = $only;
 
         // Check if form is create new or edit
         if (!$product) {
@@ -64,25 +71,30 @@ class ProductList extends Component
         }
 
         // Set value from old value
-        $this->product_id            = old('product_id')[$index] ?? $product->id  ?? $this->product_id;
-        $this->product_quantity      = old('product_quantity')[$index] ?? $product->pivot->quantity ?? $this->product_quantity;
-        $this->product_location      = old('product_location')[$index] ?? $product->pivot->rack_id ?? $this->product_location;
+        $this->product                = $product;
+        $this->product->pid           = old('product_id')[$index] ?? $product->id  ?? $this->product_id;
+        $this->product->amount        = old('product_quantity')[$index] ?? $product->pivot->quantity ?? $this->product_quantity;
+        $this->product->locationID    = old('product_location')[$index] ?? $product->pivot->rack_id ?? $this->product_location;
 
         // Check if location has exist
-        if ($this->product_location <= 0) {
+        if ($this->product->locationID <= 0) {
             return;
         }
 
         // Get Rack Location
-        $rack = Rack::find($this->product_location)
-            ->load(['warehouse'])
-            ->WithHistoryOfProduct($this->product_id)
-            ->first();
+        $rack = $racks->where('id', $this->product->locationID)->load(['history' => function ($q) {
+            return $q->where('product_id', $this->product->pid);
+        }])->first();
 
-        $this->product_location_text    = $rack->full_code;
-        $this->product_stock            = ($this->viewStock) ? $rack->getQuantity($rack->history) : 0;
+        $this->product->locationText    = "{$rack->code} ( {$rack->warehouse->name} )";
+        $this->product->stock            = ($this->only) ? $rack->getQuantity($rack->history) : 0;
     }
 
+    public function canView($value)
+    {
+        return $this->only->contains($value);
+    }
+    
     /**
      * Get the view / contents that represent the component.
      *
